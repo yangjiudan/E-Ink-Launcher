@@ -1,9 +1,4 @@
-## E-Ink Launcher
-
-(fix ftp server bug on sony dpt rp1 device.)
-
-
-
+## E-Ink Launcher(fix ftp server bug on sony dpt rp1 device.)
 
 `E-Ink Launcher` is an Android launcher for Electronic paper book
 
