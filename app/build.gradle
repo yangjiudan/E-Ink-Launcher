@@ -76,6 +76,7 @@ dependencies {
     implementation 'org.apache.ftpserver:ftpserver-core:1.1.0'
     //can't connect http://fw.ydevices.com/maven
 //    compileOnly files('src/libs/yotadevice_sdk-3.7.12.jar')
+    implementation "org.slf4j:slf4j-simple:1.6.1"
 }
 /*
 android.applicationVariants.all { variant ->

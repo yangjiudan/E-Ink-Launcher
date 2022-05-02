@@ -19,8 +19,8 @@
 -keep public class cn.modificator.launcher.R$*{
     public static final int *;
 }
-#-keep class org.apache.** {*;}
-#-keep interface org.apache.** {*;}
+-keep class org.apache.** {*;}
+-keep interface org.apache.** {*;}
 #-dontwarn org.apache.**
 #-dontwarn org.slf4j.**
 

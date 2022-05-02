@@ -1,7 +1,7 @@
 package cn.modificator.launcher.ftpservice;
 
-/**
- * Created by yashwanthreddyg on 09-06-2016.
+/*
+  Created by yashwanthreddyg on 09-06-2016.
  */
 
 import android.app.AlarmManager;
@@ -150,7 +150,7 @@ public class FTPService extends Service implements Runnable {
     port = getDefaultPortFromPreferences(preferences);
 
     fac.setPort(port);
-
+    Log.d(TAG, "port:"+port +" isPasswordProtected:"+isPasswordProtected);
     serverFactory.addListener("default", fac.createListener());
     try {
       server = serverFactory.createServer();
@@ -174,6 +174,7 @@ public class FTPService extends Service implements Runnable {
     try {
       serverThread.join(10000); // wait 10 sec for server thread to finish
     } catch (InterruptedException e) {
+      e.printStackTrace();
     }
     if (serverThread.isAlive()) {
       Log.w(TAG, "Server thread failed to exit");
@@ -228,16 +229,15 @@ public class FTPService extends Service implements Runnable {
 
 
   public static boolean isConnectedToLocalNetwork(Context context) {
-    boolean connected = false;
     ConnectivityManager cm = (ConnectivityManager) context
         .getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo ni = cm.getActiveNetworkInfo();
-    connected = ni != null
+    boolean connected = ni != null
         && ni.isConnected()
         && (ni.getType() & (ConnectivityManager.TYPE_WIFI | ConnectivityManager.TYPE_ETHERNET)) != 0;
     if (!connected) {
       Log.d(TAG, "isConnectedToLocalNetwork: see if it is an WIFI AP");
-      WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+      WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
       try {
         Method method = wm.getClass().getDeclaredMethod("isWifiApEnabled");
         connected = (Boolean) method.invoke(wm);
@@ -279,7 +279,7 @@ public class FTPService extends Service implements Runnable {
 
     if (isConnectedToWifi(context)) {
 
-      WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+      WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
       int ipAddress = wm.getConnectionInfo().getIpAddress();
       if (ipAddress == 0)
         return null;
@@ -339,6 +339,7 @@ public class FTPService extends Service implements Runnable {
       ds.setReuseAddress(true);
       return true;
     } catch (IOException e) {
+      e.printStackTrace();
     } finally {
       if (ds != null) {
         ds.close();
